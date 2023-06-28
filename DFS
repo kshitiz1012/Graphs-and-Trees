@@ -1,0 +1,48 @@
+const int N=1e5+3;
+// No need to have a visited array for tree.
+bool vis[N];
+vector<ll> adj[N];
+void dfs(ll vertex)
+{
+     /* Take action on vertex after entering
+        the vertex */
+        
+        vis[vertex]=true;
+      for(auto &child:adj[vertex])
+      {
+          if(vis[child])
+          continue;
+          
+          /* Take action on child node before entering
+             the child node */
+             
+            dfs(child);
+            
+            /* Take action on child node after exiting
+               the child node */
+      }
+      
+      /* Take action on vertex before exiting 
+        the vertex */
+}
+void solve()
+{
+     ll vertices,edges;
+     cin>>vertices>>edges;
+     
+     for(int i=0;i<edges;i++)
+     {
+         ll first,second;
+         cin>>first>>second;
+         
+         // undirected graph
+         //adj[first].push_back(second);
+         //adj[second].push_back(first);
+         
+         // directed graph
+         // adj[first].push_back(second);
+     }
+     
+     // 1 is the root node in this case
+     dfs(1);
+}
