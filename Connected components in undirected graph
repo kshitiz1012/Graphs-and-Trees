@@ -1,0 +1,42 @@
+const int N=1e5+3;
+bool vis[N];
+vector<ll> adj[N];
+void dfs(ll vertex)
+{
+      vis[vertex]=true;
+      for(auto &child:adj[vertex])
+      {
+          if(vis[child])
+          continue;
+            
+          dfs(child);
+      }
+}
+void solve()
+{
+     ll vertices,edges;
+     cin>>vertices>>edges;
+     
+     for(int i=0;i<edges;i++)
+     {
+         ll first,second;
+         cin>>first>>second;
+         
+          // undirected graph
+          // adj[first].push_back(second);
+          // adj[second].push_back(first);
+         
+         // directed graph
+         // adj[first].push_back(second);
+     }
+     
+     ll ans=0;
+     for(int i=1;i<=vertices;i++)
+     {
+         if(vis[i]==0)
+         {
+             dfs(i);
+             ans++;
+         }
+     }
+}
