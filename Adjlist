@@ -1,0 +1,20 @@
+const int N=1e5+3;
+vector<ll> adj[N];
+void solve()
+{
+     ll vertices,edges;
+     cin>>vertces>>edges;
+     
+     for(int i=0;i<edges;i++)
+     {
+         ll first,second;
+         cin>>first>>second;
+         
+         //undirected graph
+         // adj[first].push_back(second);
+         // adj[second].push_back(first);
+         
+         // directed graph
+         // adj[first].push_back(second);
+     }
+}
