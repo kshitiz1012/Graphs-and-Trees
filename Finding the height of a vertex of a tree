@@ -26,7 +26,5 @@ void solve()
         adj[second].push_back(first);
     }
     
-    depth[1]=1;
-    
     dfs(1,0);
 }
