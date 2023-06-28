@@ -1,0 +1,31 @@
+const int N=1e5+3;
+vector<ll> adj[N];
+ll depth[N];
+void dfs(ll vertex,ll parent)
+{
+    for(auto &child:adj[vertex])
+    {
+        if(child==parent)
+        continue;
+        
+        depth[child]=depth[vertex]+1;
+        dfs(child,vertex);
+    }
+}
+void solve()
+{
+    ll vertices;
+    cin>>vertices;
+    
+    for(int i=0;i<vertices-1;i++)
+    {
+        ll first,second;
+        cin>>first>>second;
+        adj[first].push_back(second);
+        adj[second].push_back(first);
+    }
+    
+    depth[1]=1;
+    
+    dfs(1,0);
+}
