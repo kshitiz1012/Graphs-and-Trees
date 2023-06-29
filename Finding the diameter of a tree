@@ -1,0 +1,50 @@
+const int N=1e5+3;
+vector<ll> adj[N];
+ll depth[N];
+void dfs(ll vertex,ll parent)
+{
+    for(auto &child:adj[vertex])
+    {
+        if(child==parent)
+        continue;
+        
+        depth[child]=depth[vertex]+1;
+        dfs(child,vertex);
+    }
+}
+void solve()
+{
+     ll vertices;
+     cin>>vertices;
+     
+     for(int i=0;i<vertices-1;i++)
+     {
+         ll first,second;
+         cin>>first>>second;
+         adj[first].push_back(second);
+         adj[second].push_back(first);
+     }
+     
+     // we can choose any node as our root node and start dfs from there.
+     dfs(1,0);
+     
+     // find the node which has the maximum depth/distance from the root node
+     ll maxi=0,node=0;
+     for(int i=1;i<=vertices;i++)
+     {
+         if(depth[i]>maxi)
+         {
+             maxi=depth[i];
+             node=i;
+             depth[i]=0;
+         }
+     }
+     
+     // start dfs from the node you have choosen above
+     dfs(node,0);
+     
+     
+     // now just find the maximum depth of any node from that node.
+     ll ans=*max_element(depth,depth+vertices+1);
+     cout<<ans<<endl;
+}
