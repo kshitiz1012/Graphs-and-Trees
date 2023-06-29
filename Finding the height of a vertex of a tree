@@ -9,9 +9,9 @@ void dfs(ll vertex,ll parent)
         continue;
 
         dfs(child,vertex);
-        height[vertex]=max(height[vertex],height[child]);
+        ll e=height[child]+1;
+        height[vertex]=max(height[vertex],e);
     }
-    height[vertex]++;
 }
 void solve()
 {
