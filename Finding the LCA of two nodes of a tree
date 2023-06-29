@@ -1,0 +1,64 @@
+const int N=1e5+3;
+// pa[i] stores the parent of the ith vertex.
+ll pa[N];
+vector<ll> adj[N];
+void dfs(ll vertex,ll parent)
+{
+        pa[vertex]=parent;
+      for(auto &child:adj[vertex])
+      {
+          if(parent==child)
+          continue;
+             
+          dfs(child,vertex);
+      }
+}
+vector<ll> path(ll node)
+{
+    vector<ll> v;
+    while(node!=0)
+    {
+        v.push_back(node);
+        node=pa[node];
+    }
+    
+    reverse(v.begin(),v.end());
+    return v;
+}
+void solve()
+{
+     ll vertices;
+     cin>>vertices;
+     
+     // Two nodes for which we are finding the LCA.
+     ll node1,node2;
+     cin>>node1>>node2;
+     
+     for(int i=0;i<vertices-1;i++)
+     {
+         ll first,second;
+         cin>>first>>second;
+         
+         adj[first].push_back(second);
+         adj[second].push_back(first);
+     }
+     
+     // 1 is the root node in this case
+     dfs(1,0);
+     
+     // finding the path of nodes from the root node.
+     vector<ll> first=path(node1);
+     vector<ll> second=path(node2);
+     
+     ll ans=0;
+     ll mn=(first.size(),second.size());
+     for(int i=0;i<mn;i++)
+     {
+         if(first[i]==second[i])
+         ans=first[i];
+         else
+         break;
+     }
+     
+     cout<<ans<<endl;
+}
