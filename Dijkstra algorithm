@@ -1,0 +1,48 @@
+const int N=1e5;
+vector<pair<ll,ll>> adj[N];
+vector<ll> level(N,1e18),vis(N,0);
+void bfs(ll root)
+{
+    set<pair<ll,ll>> pq;
+    
+    pq.insert({0,root});
+    level[root]=0;
+    
+    while(pq.size())
+    {
+        auto it=pq.begin();
+        ll node=(*it).second;
+        ll dist=(*it).first;
+        pq.erase(it);
+        
+        if(vis[node]==1)
+        continue;
+        
+        vis[node]=1;
+        
+        for(auto &p:adj[node])
+        {
+            if(level[p.first]>dist+p.second)
+            {
+                level[p.first]=dist+p.second;
+                pq.insert({level[p.first],p.first});
+            }
+        }
+    }
+}
+void solve()
+{
+    ll vertices,edges;
+    cin>>vertices>>edges;
+    
+    for(int i=0;i<edges;i++)
+    {
+        ll first,second,wt;
+        cin>>first>>second>>wt;
+        adj[first].push_back({second,wt});
+        adj[second].push_back({first,wt});
+    }
+    
+    // 1 is the root node.
+    bfs(1);
+}
