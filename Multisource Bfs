@@ -1,0 +1,53 @@
+const int N=1e5;
+vector<ll> adj[N];
+ll level[N],vis[N];
+void bfs(vector<ll> &roots)
+{
+    queue<ll> q;
+    for(auto &p:roots)
+    {
+        q.push(p);
+        vis[p]=1;
+        level[p]=0;
+    }
+    
+    while(q.size())
+    {
+        ll e=q.front();
+        q.pop();
+        
+        for(auto &p:adj[e])
+        {
+            if(!vis[p])
+            {
+                level[p]=level[e]+1;
+                vis[p]=1;
+                q.push(p);
+            }
+        }
+    }
+}
+void solve()
+{
+    ll vertices,edges,roots;
+    cin>>vertices>>edges>>roots;
+    
+    for(int i=0;i<edges;i++)
+    {
+        ll first,second;
+        cin>>first>>second;
+        adj[first].push_back(second);
+        adj[second].push_back(first);
+    }
+    
+    vector<ll> sources;
+    
+    for(int i=0;i<roots;i++)
+    {
+        ll p;
+        cin>>p;
+        sources.push_back(p);
+    }
+    
+    bfs(sources);
+}
