@@ -1,0 +1,37 @@
+bool dfs(ll vertex,ll parent)
+{
+     vis[vertex]=1;
+     bool found=false;
+     for(auto &child:adj[vertex])
+     {
+          if(child==parent)
+          continue;
+          
+          if(st.find({child,vertex})!=st.end())
+          continue;
+          
+          if(st.find({vertex,child})!=st.end())
+          continue;
+          
+          st.insert({child,vertex});
+          
+          if(vis[child])
+          {
+            start.insert(child);
+            found=true;
+          }
+          
+          found|=dfs(child,vertex);
+     }
+     
+     if(found)
+     {
+          if(level1[vertex]>level2[vertex])
+          ok=true;
+     }
+     
+     if(start.find(vertex)!=start.end())
+     found=false;
+     
+     return found;
+}
