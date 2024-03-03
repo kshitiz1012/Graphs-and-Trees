@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"YES"<<endl
+#define no  cout<<"NO"<<endl
+const int N=1e5+10;
+vector<pair<ll,ll>> adj[N];
+ll dist[N];
+void solve()
+{
+     ll n,m;
+     cin>>n>>m;
+     for(int i=0;i<m;i++)
+     {
+          ll first,second,wt;
+          cin>>first>>second>>wt;
+          adj[first].push_back({second,wt});
+          adj[second].push_back({first,wt});
+     }
+     
+     for(int i=1;i<=n;i++)
+     dist[i]=1e18;
+     
+     ll src;
+     cin>>src;
+     dist[src]=0;
+     
+     for(int i=1;i<n;i++)
+     {
+          bool found=false;
+          for(int j=1;j<=n;j++)
+          {
+               for(auto &p:adj[i])
+               {
+                    if(dist[i]+p.second<dist[j])
+                    {
+                         dist[j]=dist[i]+p.second;
+                         found=true;
+                    }
+               }
+          }
+          
+          if(!found)
+          break;
+     }
+     
+     for(int i=1;i<=n;i++)
+     cout<<dist[i]<<" ";
+     cout<<endl;
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	
+	ll t=1;
+	//cin>>t;
+	while(t--)
+	{
+	    solve();
+	}  
+	
+}
