@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"Yes"<<endl
+#define no  cout<<"No"<<endl
+const int N=2e5+10;
+const int LOG=20;
+vector<ll> adj[N];
+ll ans[N][LOG]; // ans[v][j] is 2^j-th ancestor of v
+ll depth[N];
+void dfs(ll vertex,ll parent)
+{
+    for(auto &p:adj[vertex])
+    {
+        if(p==parent)
+        continue;
+        
+        depth[p]=depth[vertex]+1;
+        ans[p][0]=vertex;
+        
+        for(int i=1;i<LOG;i++)
+        ans[p][i]=ans[ans[p][i-1]][i-1];
+        
+        dfs(p,vertex);
+    }
+}
+ll kthancestor(ll first,ll second)
+{
+    ll node=second;
+    
+    if(depth[node]<first)
+    return -1;
+    
+    for(int j=0;j<LOG;j++)
+    {
+        if(first&(1<<j))
+        node=ans[node][j];
+    }
+    
+    return node;
+}
+void solve()
+{
+    ll n,q;
+    cin>>n>>q;
+    for(int i=2;i<=n;i++)
+    {
+        ll first=i;
+        ll second;
+        cin>>second;
+        adj[first].push_back(second);
+        adj[second].push_back(first);
+    }
+    
+    dfs(1,0);
+    
+    while(q--)
+    {
+        ll node,k;
+        cin>>node>>k;
+        cout<<kthancestor(k,node)<<endl;
+    }
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    
+    ll t=1;
+    while(t--)
+    {
+        solve();
+    }  
+    
+}
