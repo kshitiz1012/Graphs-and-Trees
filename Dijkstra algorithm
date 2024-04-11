@@ -1,31 +1,29 @@
-const int N=1e5;
+const int N=1e5+10;
 vector<pair<ll,ll>> adj[N];
-vector<ll> level(N,1e18),vis(N,0);
+vector<ll> level(N,1e15);
 void bfs(ll root)
 {
-    set<pair<ll,ll>> pq;
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
     
-    pq.insert({0,root});
+    pq.push({0,root});
     level[root]=0;
     
     while(pq.size())
     {
-        auto it=pq.begin();
-        ll node=(*it).second;
-        ll dist=(*it).first;
-        pq.erase(it);
+        auto it=pq.top();
+        ll node=(it).second;
+        ll dist=(it).first;
+        pq.pop();
         
-        if(vis[node]==1)
+        if (dist> level[node])
         continue;
-        
-        vis[node]=1;
-        
+
         for(auto &p:adj[node])
         {
             if(level[p.first]>dist+p.second)
             {
                 level[p.first]=dist+p.second;
-                pq.insert({level[p.first],p.first});
+                pq.push({level[p.first],p.first});
             }
         }
     }
@@ -40,7 +38,6 @@ void solve()
         ll first,second,wt;
         cin>>first>>second>>wt;
         adj[first].push_back({second,wt});
-        adj[second].push_back({first,wt});
     }
     
     // 1 is the root node.
