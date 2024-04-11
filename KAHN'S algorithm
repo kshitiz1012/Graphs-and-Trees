@@ -35,6 +35,13 @@ void solve()
           }
      }
      
+     
+     if(ans.size()!=n)
+     {
+          no;
+          return;
+     }
+     
      for(auto &p:ans)
      cout<<p<<" ";
      cout<<endl;
