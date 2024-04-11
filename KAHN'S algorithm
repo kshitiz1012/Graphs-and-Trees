@@ -1,0 +1,41 @@
+const int N=1e5+10;
+vector<ll> adj[N];
+ll indegree[N];
+void solve()
+{
+     ll n,m;
+     cin>>n>>m;
+     for(int i=1;i<=m;i++)
+     {
+          ll first,second;
+          cin>>first>>second;
+          adj[first].push_back(second);
+          indegree[second]++;
+     }
+     
+     queue<ll> q;
+     for(int i=1;i<=n;i++)
+     {
+          if(indegree[i]==0)
+          q.push(i);
+     }
+     
+     vector<ll> ans;
+     while(!q.empty())
+     {
+          ll node=q.front();
+          q.pop();
+          ans.push_back(node);
+          
+          for(auto &child:adj[node])
+          {
+               indegree[child]--;
+               if(indegree[child]==0)
+               q.push(child);
+          }
+     }
+     
+     for(auto &p:ans)
+     cout<<p<<" ";
+     cout<<endl;
+}
