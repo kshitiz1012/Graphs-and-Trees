@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"YES"<<endl
+#define no  cout<<"NO"<<endl
+const int N=1e5+10;
+vector<pair<ll,ll>> adj[N];
+void solve()
+{
+    ll n,m;
+    cin>>n>>m;
+    for(int i=0;i<m;i++)
+    {
+         ll first,second,wt;
+         cin>>first>>second>>wt;
+         adj[first].push_back({second,wt});
+         adj[second].push_back({first,wt});
+    }
+    
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq;
+    
+    ll vis[n+1];
+    memset(vis,0,sizeof(vis));
+    
+    pq.push({0,1});
+    ll sum=0;
+    while(pq.size())
+    {
+         auto it=pq.top();
+         pq.pop();
+         ll node=it.second;
+         ll wt=it.first;
+         if(vis[node])
+         continue;
+         
+         vis[node]=1;
+         sum+=wt;
+         for(auto &p:adj[node])
+         {
+              if(!vis[p.first])
+              pq.push({p.second,p.first});
+         }
+    }
+    
+    cout<<sum<<endl;
+}
+int main()
+{
+     ll t=1;
+	while(t--)
+	{
+	    solve();
+	}  
+	
+}
