@@ -1,0 +1,94 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"YES"<<endl
+#define no  cout<<"NO"<<endl
+class DisjointSet {
+    vector<ll> rank, parent, size;
+public:
+    DisjointSet(ll n) {
+        rank.resize(n + 1, 0);
+        parent.resize(n + 1);
+        size.resize(n + 1);
+        for (int i = 0; i <= n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    int findUPar(ll node) {
+        if (node == parent[node])
+            return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+
+    void unionByRank(ll u, ll v) {
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if (ulp_u == ulp_v) return;
+        if (rank[ulp_u] < rank[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+        }
+        else if (rank[ulp_v] < rank[ulp_u]) {
+            parent[ulp_v] = ulp_u;
+        }
+        else {
+            parent[ulp_v] = ulp_u;
+            rank[ulp_u]++;
+        }
+    }
+
+    void unionBySize(ll u, ll v) {
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if (ulp_u == ulp_v) return;
+        if (size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        }
+        else {
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+};
+void solve()
+{
+     ll n,m;
+     cin>>n>>m;
+     vector<tuple<ll,ll,ll>> v;
+     DisjointSet dsu(n);
+     for(int i=0;i<m;i++)
+     {
+          ll first,second,wt;
+          cin>>first>>second>>wt;
+          v.push_back({wt,first,second});
+     }
+     
+     sort(v.begin(),v.end());
+     
+     ll mstwt=0;
+     for(auto &p:v)
+     {
+          if(dsu.findUPar(get<1>(p))!=dsu.findUPar(get<2>(p)))
+          {
+               mstwt+=get<0>(p);
+               dsu.unionBySize(get<1>(p),get<2>(p));
+          }
+     }
+     
+     cout<<mstwt<<endl;
+}
+int main()
+{
+     ll t=1;
+	while(t--)
+	{
+	    solve();
+	}  
+	
+}
