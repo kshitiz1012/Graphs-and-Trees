@@ -1,0 +1,84 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"YES"<<endl
+#define no  cout<<"NO"<<endl
+const int N=2e5+10;
+vector<ll> adj[N];
+vector<ll> finish_time;
+ll vis[N];
+void dfs(ll vertex)
+{
+     vis[vertex]=1;
+     for(auto &child:adj[vertex])
+     {
+          if(!vis[child])
+          dfs(child);
+     }
+     
+     finish_time.push_back(vertex);
+}
+void dfs2(ll vertex)
+{
+     vis[vertex]=1;
+     for(auto &child:adj[vertex])
+     {
+          if(!vis[child])
+          dfs2(child);
+     }
+}
+void solve()
+{
+    ll n,m;
+    cin>>n>>m;
+    vector<pair<ll,ll>> v;
+    for(int i=0;i<m;i++)
+    {
+         ll first,second;
+         cin>>first>>second;
+         v.push_back({first,second});
+         adj[first].push_back(second);
+    }
+    
+    // Kosaraju's algorithm
+    
+    // 1) Sort all the nodes according to the finishing time.
+    // 2) Reverse the graph
+    // 3) Do a dfs
+    
+     dfs(1);
+     reverse(finish_time.begin(),finish_time.end());
+     for(int i=1;i<=n;i++)
+    {
+        adj[i].clear();
+        vis[i]=0;
+    }
+    
+    for(auto &p:v)
+    adj[p.second].push_back(p.first);
+    
+    ll ans=0;
+    for(auto &p:finish_time)
+    {
+         if(!vis[p])
+         {
+            dfs2(p);
+            ans++;
+         }
+    }
+    
+    cout<<ans<<endl;
+}
+int main()
+{
+     ll t=1;
+	while(t--)
+	{
+	    solve();
+	}  
+	
+}
