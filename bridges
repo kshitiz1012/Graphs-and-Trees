@@ -11,8 +11,11 @@ const int N=1e5+10;
 vector<ll> adj[N];
 ll tin[N],vis[N],low[N];
 ll ans=0;
-void dfs(ll vertex,ll parent)
+void dfs(ll vertex,ll parent,ll timer)
 {
+     vis[vertex]=1;
+     tin[vetex]=low[vertex]=timer;
+     timer++;
      for(auto &child:adj[vertex])
      {
           if(child==parent)
@@ -22,7 +25,7 @@ void dfs(ll vertex,ll parent)
           low[vertex]=min(low[vertex],low[child]);
           else
           {
-               dfs(child,vertex);
+               dfs(child,vertex,timer);
                low[vertex]=min(low[vertex],low[child]);
                if(low[child]>tin[vertex])
                {
@@ -44,7 +47,7 @@ void solve()
          adj[second].push_back(first);
     }
     
-    dfs(1,0);
+    dfs(1,0,1);
     cout<<ans<<endl;
 }
 int main()
