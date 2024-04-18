@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+#define ll long long
+#define ld long double
+#define endl "\n"
+#define yes cout<<"YES"<<endl
+#define no  cout<<"NO"<<endl
+const int N=1e5+10;
+vector<ll> adj[N];
+ll tin[N],vis[N],low[N];
+ll ans=0;
+void dfs(ll vertex,ll parent)
+{
+     for(auto &child:adj[vertex])
+     {
+          if(child==parent)
+          continue;
+          
+          if(vis[child])
+          low[vertex]=min(low[vertex],low[child]);
+          else
+          {
+               dfs(child,vertex);
+               low[vertex]=min(low[vertex],low[child]);
+               if(low[child]>tin[vertex])
+               {
+                    // bridge is present
+                    ans++;
+               }
+          }
+     }
+}
+void solve()
+{
+    ll n,m;
+    cin>>n>>m;
+    for(int i=0;i<m;i++)
+    {
+         ll first,second;
+         cin>>first>>second;
+         adj[first].push_back(second);
+         adj[second].push_back(first);
+    }
+    
+    dfs(1,0);
+    cout<<ans<<endl;
+}
+int main()
+{
+     ll t=1;
+	while(t--)
+	{
+	    solve();
+	}  
+	
+}
